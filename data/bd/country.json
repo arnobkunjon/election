@@ -1,0 +1,68 @@
+{
+  "formatVersion": "0.1",
+  "country": {
+    "code": "bd",
+    "names": {
+      "en": "Bangladesh",
+      "bn": "বাংলাদেশ"
+    },
+    "defaultLocale": "en",
+    "locales": ["en", "bn"]
+  },
+  "levels": [
+    { "id": "division", "rank": 0, "hierarchical": true, "names": { "en": "Division", "bn": "বিভাগ" } },
+    { "id": "district", "rank": 1, "hierarchical": true, "names": { "en": "District", "bn": "জেলা" } },
+    { "id": "upazila", "rank": 2, "hierarchical": true, "names": { "en": "Upazila", "bn": "উপজেলা" } },
+    { "id": "union", "rank": 3, "hierarchical": true, "names": { "en": "Union", "bn": "ইউনিয়ন" } },
+    { "id": "ward", "rank": 4, "hierarchical": true, "names": { "en": "Ward", "bn": "ওয়ার্ড" } },
+    { "id": "city_corporation", "rank": 90, "hierarchical": false, "names": { "en": "City Corporation", "bn": "সিটি কর্পোরেশন" } },
+    { "id": "constituency", "rank": 91, "hierarchical": false, "names": { "en": "Constituency", "bn": "নির্বাচনী এলাকা" } }
+  ],
+  "electionTypes": [
+    {
+      "id": "parliamentary",
+      "names": { "en": "Parliamentary (Jatiya Sangsad)", "bn": "জাতীয় সংসদ নির্বাচন" },
+      "regionLevel": "constituency",
+      "positions": [
+        { "id": "mp", "names": { "en": "Member of Parliament", "bn": "সংসদ সদস্য" }, "seatsPerRegion": 1 }
+      ]
+    },
+    {
+      "id": "union_parishad",
+      "names": { "en": "Union Parishad", "bn": "ইউনিয়ন পরিষদ নির্বাচন" },
+      "regionLevel": "union",
+      "positions": [
+        { "id": "chairman", "names": { "en": "Chairman", "bn": "চেয়ারম্যান" }, "seatsPerRegion": 1 },
+        { "id": "member", "names": { "en": "Member (by ward)", "bn": "সদস্য (ওয়ার্ড ভিত্তিক)" }, "seatsPerRegion": 9 },
+        { "id": "women_reserved_member", "names": { "en": "Reserved Women Member", "bn": "সংরক্ষিত নারী সদস্য" }, "seatsPerRegion": 3 }
+      ]
+    },
+    {
+      "id": "upazila_parishad",
+      "names": { "en": "Upazila Parishad", "bn": "উপজেলা পরিষদ নির্বাচন" },
+      "regionLevel": "upazila",
+      "positions": [
+        { "id": "chairman", "names": { "en": "Chairman", "bn": "চেয়ারম্যান" }, "seatsPerRegion": 1 },
+        { "id": "vice_chairman", "names": { "en": "Vice Chairman", "bn": "ভাইস চেয়ারম্যান" }, "seatsPerRegion": 1 },
+        { "id": "women_vice_chairman", "names": { "en": "Women Vice Chairman", "bn": "মহিলা ভাইস চেয়ারম্যান" }, "seatsPerRegion": 1 }
+      ]
+    },
+    {
+      "id": "city_corporation",
+      "names": { "en": "City Corporation", "bn": "সিটি কর্পোরেশন নির্বাচন" },
+      "regionLevel": "city_corporation",
+      "positions": [
+        { "id": "mayor", "names": { "en": "Mayor", "bn": "মেয়র" }, "seatsPerRegion": 1 },
+        { "id": "councillor", "names": { "en": "Councillor", "bn": "কাউন্সিলর" }, "seatsPerRegion": 1 }
+      ]
+    },
+    {
+      "id": "district_council",
+      "names": { "en": "District Council (Zila Parishad)", "bn": "জেলা পরিষদ নির্বাচন" },
+      "regionLevel": "district",
+      "positions": [
+        { "id": "chairman", "names": { "en": "Chairman", "bn": "চেয়ারম্যান" }, "seatsPerRegion": 1 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "xx:state:s1",
+    "level": "state",
+    "parentId": null,
+    "names": { "en": "North State" }
+  },
+  {
+    "id": "xx:county:c1",
+    "level": "county",
+    "parentId": "xx:state:s1",
+    "names": { "en": "Alpha County" }
+  },
+  {
+    "id": "xx:county:c2",
+    "level": "county",
+    "parentId": "xx:state:s1",
+    "names": { "en": "Beta County" },
+    "codes": { "source": "2" }
+  },
+  {
+    "id": "xx:constituency:1",
+    "level": "constituency",
+    "parentId": null,
+    "names": { "en": "North-1" },
+    "composedOf": ["xx:county:c1", "xx:county:c2"]
+  }
+]

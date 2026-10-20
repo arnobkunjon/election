@@ -1,0 +1,19 @@
+{
+  "name": "promise-ledger",
+  "version": "0.1.0",
+  "description": "Open-source promise ledger for elections: candidates publish sealed promises, voters see promised vs. delivered after the term.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "validate": "node tools/validate.mjs data/bd",
+    "validate:examples": "node tools/validate.mjs spec/examples/minimal-country",
+    "build:bd": "node tools/build-bd-from-sources.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.17.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
