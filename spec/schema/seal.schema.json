@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/seal.schema.json",
+  "title": "Promise Format v0.1 - Seal",
+  "type": "object",
+  "required": ["id", "kind", "electionId", "candidateId", "sealedAt", "promiseHeads", "merkleRoot", "prevSealHash", "sealHash"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{1,62}$",
+      "description": "Stable seal id, unique across the ledger."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["interim", "final"],
+      "description": "Only ONE final seal per candidate per election."
+    },
+    "electionId": { "type": "string" },
+    "candidateId": { "type": "string" },
+    "sealedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "description": "ISO 8601 UTC timestamp with second precision."
+    },
+    "promiseHeads": {
+      "type": "array",
+      "description": "Latest version of every promise of this candidate in this election as of sealedAt, sorted by promiseId.",
+      "items": {
+        "type": "object",
+        "required": ["promiseId", "version", "hash"],
+        "additionalProperties": false,
+        "properties": {
+          "promiseId": { "type": "string", "minLength": 2, "maxLength": 81 },
+          "version": { "type": "integer", "minimum": 1 },
+          "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "merkleRoot": {
+      "description": "Merkle root over promiseHeads; null when there are no heads.",
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      ]
+    },
+    "prevSealHash": {
+      "description": "Previous seal's sealHash for this candidate/election, or null if this is the first seal.",
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      ]
+    },
+    "sealHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "sha256(canonical({id, kind, electionId, candidateId, sealedAt, promiseHeads, merkleRoot, prevSealHash})). See spec/promise-format.md."
+    },
+    "anchors": {
+      "type": "array",
+      "description": "External publications of the seal hash (real proof needs these). Empty for now.",
+      "items": {
+        "type": "object",
+        "required": ["type", "reference", "publishedAt"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "type": "string", "minLength": 1, "maxLength": 40, "description": "e.g. 'git-commit', 'tweet', 'newspaper'." },
+          "reference": { "type": "string", "minLength": 1, "maxLength": 500 },
+          "publishedAt": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+          }
+        }
+      }
+    }
+  }
+}

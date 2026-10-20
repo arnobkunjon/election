@@ -1,0 +1,224 @@
+{
+  "formatVersion": "0.1",
+  "elections": [
+    {
+      "id": "xx-election-2026-north-1",
+      "countryCode": "xx",
+      "electionTypeId": "parliamentary",
+      "regionId": "xx:constituency:1",
+      "names": {
+        "en": "Exampleland General Election 2026 — North-1"
+      },
+      "status": "open",
+      "dates": {
+        "nominationOpens": "2025-12-01",
+        "electionDay": "2026-02-10",
+        "termStart": "2026-03-01",
+        "termEnd": "2031-02-28"
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "id": "alice-1",
+      "electionId": "xx-election-2026-north-1",
+      "positionId": "mp",
+      "names": {
+        "en": "Alice Example"
+      },
+      "partyName": "Example Party A",
+      "verificationStatus": "verified"
+    },
+    {
+      "id": "bob-1",
+      "electionId": "xx-election-2026-north-1",
+      "positionId": "mp",
+      "names": {
+        "en": "Bob Sample"
+      },
+      "partyName": "Example Party B",
+      "verificationStatus": "unverified"
+    }
+  ],
+  "promiseVersions": [
+    {
+      "promiseId": "xx:promise:road-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "alice-1",
+      "version": 1,
+      "type": "publish",
+      "content": {
+        "title": {
+          "en": "Fix the North main road"
+        },
+        "description": {
+          "en": "We will re-pave the main road of North State."
+        },
+        "category": "roads_transport",
+        "successCriteria": {
+          "en": "Voters can see it finished before the deadline."
+        },
+        "deadline": "2027-06-30"
+      },
+      "createdAt": "2026-01-05T09:00:00Z",
+      "prevHash": null,
+      "hash": "721ed427f4e8382e80fc6e1720b00abf85fc192fc2b1c40beea135688588e28d"
+    },
+    {
+      "promiseId": "xx:promise:road-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "alice-1",
+      "version": 2,
+      "type": "amend",
+      "content": {
+        "title": {
+          "en": "Fix the North main road and side lanes"
+        },
+        "description": {
+          "en": "We will re-pave the main road and both side lanes."
+        },
+        "category": "roads_transport",
+        "successCriteria": {
+          "en": "Voters can see it finished before the deadline."
+        },
+        "targetValue": 12,
+        "targetUnit": "km",
+        "deadline": "2027-09-30"
+      },
+      "createdAt": "2026-01-12T09:00:00Z",
+      "prevHash": "721ed427f4e8382e80fc6e1720b00abf85fc192fc2b1c40beea135688588e28d",
+      "hash": "ce33d8d3f56834fbdf895825245b92bc1c118871a07bcfc9cf7e3f8ccea08c81"
+    },
+    {
+      "promiseId": "xx:promise:school-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "alice-1",
+      "version": 1,
+      "type": "publish",
+      "content": {
+        "title": {
+          "en": "Build a new primary school"
+        },
+        "description": {
+          "en": "One new primary school with four classrooms."
+        },
+        "category": "education",
+        "successCriteria": {
+          "en": "Voters can see it finished before the deadline."
+        },
+        "deadline": "2028-06-30"
+      },
+      "createdAt": "2026-01-06T09:00:00Z",
+      "prevHash": null,
+      "hash": "d09910f11c3fba69d595e5c48a6a44c600676351e0015a956d380c4c79887faa"
+    },
+    {
+      "promiseId": "xx:promise:clinic-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "bob-1",
+      "version": 1,
+      "type": "publish",
+      "content": {
+        "title": {
+          "en": "Open a free health clinic"
+        },
+        "description": {
+          "en": "A sub-district clinic open six days a week."
+        },
+        "category": "health",
+        "successCriteria": {
+          "en": "Voters can see it finished before the deadline."
+        },
+        "deadline": "2027-12-31"
+      },
+      "createdAt": "2026-01-07T10:00:00Z",
+      "prevHash": null,
+      "hash": "495322e53f5eb50dd3734fe48c18ecea245c8792372121339429e0736c4df7c4"
+    },
+    {
+      "promiseId": "xx:promise:bridge-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "bob-1",
+      "version": 1,
+      "type": "publish",
+      "content": {
+        "title": {
+          "en": "Build a footbridge over Alpha river"
+        },
+        "description": {
+          "en": "A safe footbridge for students and farmers."
+        },
+        "category": "roads_transport",
+        "successCriteria": {
+          "en": "Voters can see it finished before the deadline."
+        },
+        "deadline": "2027-12-31"
+      },
+      "createdAt": "2026-01-08T10:00:00Z",
+      "prevHash": null,
+      "hash": "5b17d62ce84716ec9e0e44fffe7ff5f1ce7ae80f7c79c9c418adc0c7a6a27524"
+    },
+    {
+      "promiseId": "xx:promise:bridge-1",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "bob-1",
+      "version": 2,
+      "type": "withdraw",
+      "content": null,
+      "reason": {
+        "en": "The river authority cancelled the site permit."
+      },
+      "createdAt": "2026-01-20T10:00:00Z",
+      "prevHash": "5b17d62ce84716ec9e0e44fffe7ff5f1ce7ae80f7c79c9c418adc0c7a6a27524",
+      "hash": "394751ce17a5b159d04e1c8f0802c11b8361c3a07513137fce519a125c6c881e"
+    }
+  ],
+  "seals": [
+    {
+      "id": "seal-alice-final",
+      "kind": "final",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "alice-1",
+      "sealedAt": "2026-01-31T00:00:00Z",
+      "promiseHeads": [
+        {
+          "promiseId": "xx:promise:road-1",
+          "version": 2,
+          "hash": "ce33d8d3f56834fbdf895825245b92bc1c118871a07bcfc9cf7e3f8ccea08c81"
+        },
+        {
+          "promiseId": "xx:promise:school-1",
+          "version": 1,
+          "hash": "d09910f11c3fba69d595e5c48a6a44c600676351e0015a956d380c4c79887faa"
+        }
+      ],
+      "merkleRoot": "b54e926613d8d0f9a113170292f9655c1d869118a9225bef4e2b1c70d199a2c7",
+      "prevSealHash": null,
+      "anchors": [],
+      "sealHash": "613eed807a4e7d243dc1c71cfda027ffc1f09a8e16ed557e335b3948ee1ee909"
+    },
+    {
+      "id": "seal-bob-final",
+      "kind": "final",
+      "electionId": "xx-election-2026-north-1",
+      "candidateId": "bob-1",
+      "sealedAt": "2026-01-31T00:00:00Z",
+      "promiseHeads": [
+        {
+          "promiseId": "xx:promise:bridge-1",
+          "version": 2,
+          "hash": "394751ce17a5b159d04e1c8f0802c11b8361c3a07513137fce519a125c6c881e"
+        },
+        {
+          "promiseId": "xx:promise:clinic-1",
+          "version": 1,
+          "hash": "495322e53f5eb50dd3734fe48c18ecea245c8792372121339429e0736c4df7c4"
+        }
+      ],
+      "merkleRoot": "3e201ba7af8bc2011b6988d992e31c2dd28cdbd7aed783e488528f1e20a0e62a",
+      "prevSealHash": null,
+      "anchors": [],
+      "sealHash": "a5c95fae738930e9dca98810925018bc56974cd84ee169498cd93e339f08fd79"
+    }
+  ]
+}

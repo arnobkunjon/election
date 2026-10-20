@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/candidate.schema.json",
+  "title": "Promise Format v0.1 - Candidate",
+  "type": "object",
+  "required": ["id", "electionId", "positionId", "names", "verificationStatus"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{1,62}$",
+      "description": "Stable candidate id, unique across the ledger."
+    },
+    "electionId": {
+      "type": "string",
+      "description": "Must exist among the ledger's elections."
+    },
+    "positionId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,40}$",
+      "description": "Must exist in the positions of the candidate's election type."
+    },
+    "names": { "$ref": "#/$defs/localizedString" },
+    "partyName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Optional free-text party/affiliation label."
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": ["unverified", "verified", "rejected"],
+      "description": "Human check of candidate identity. NO NID or personal ID fields are ever stored."
+    }
+  },
+  "$defs": {
+    "localizedString": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 300 },
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$" },
+      "description": "Map of locale to text. Locales must be declared in the country's country.json."
+    }
+  }
+}
