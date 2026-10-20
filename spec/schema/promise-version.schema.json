@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/promise-version.schema.json",
+  "title": "Promise Format v0.1 - PromiseVersion",
+  "type": "object",
+  "required": ["promiseId", "electionId", "candidateId", "version", "type", "content", "createdAt", "prevHash", "hash"],
+  "additionalProperties": false,
+  "properties": {
+    "promiseId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]{1,80}$",
+      "description": "Identifies a promise across all its versions. May contain ':' segments (e.g. 'xx:promise:road-1')."
+    },
+    "electionId": { "type": "string", "description": "Must exist among the ledger's elections." },
+    "candidateId": { "type": "string", "description": "Must exist among the ledger's candidates (of the same election)." },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Starts at 1 and increases by 1 per version of this promise."
+    },
+    "type": { "type": "string", "enum": ["publish", "amend", "withdraw"] },
+    "content": {
+      "description": "Object for publish/amend; null for withdraw.",
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/promiseContent" }
+      ]
+    },
+    "reason": {
+      "description": "Required for withdraw, forbidden otherwise.",
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/localizedString" }
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "description": "ISO 8601 UTC timestamp with second precision, e.g. 2026-10-20T09:00:00Z."
+    },
+    "prevHash": {
+      "description": "Hash of the previous version; null only for version 1.",
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      ]
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "sha256(canonical({promiseId, electionId, candidateId, version, type, content, reason?, createdAt, prevHash})). See spec/promise-format.md."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "withdraw" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "content": { "type": "null" },
+          "reason": { "$ref": "#/$defs/localizedString" }
+        }
+      },
+      "else": {
+        "properties": {
+          "content": { "$ref": "#/$defs/promiseContent" },
+          "reason": { "type": "null" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "promiseContent": {
+      "type": "object",
+      "required": ["title", "description", "category", "successCriteria", "deadline"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "$ref": "#/$defs/localizedText" },
+        "description": { "$ref": "#/$defs/localizedLongText" },
+        "category": {
+          "type": "string",
+          "enum": ["roads_transport", "health", "education", "water_sanitation", "electricity_energy", "agriculture", "economy_jobs", "law_order", "environment", "digital", "housing", "other"]
+        },
+        "successCriteria": { "$ref": "#/$defs/localizedLongText" },
+        "targetValue": { "type": "integer", "description": "Optional numeric target (safe integer only)." },
+        "targetUnit": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "deadline": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "ISO date by which the promise should be kept."
+        }
+      }
+    },
+    "localizedText": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 140 },
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$" },
+      "description": "Localized title: max 140 characters per locale."
+    },
+    "localizedLongText": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 2000 },
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$" },
+      "description": "Localized body text: max 2000 characters per locale."
+    },
+    "localizedString": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 2000 },
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$" }
+    }
+  }
+}

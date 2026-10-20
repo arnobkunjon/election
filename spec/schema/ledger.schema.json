@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/ledger.schema.json",
+  "title": "Promise Format v0.1 - Ledger file",
+  "type": "object",
+  "required": ["formatVersion", "elections", "candidates", "promiseVersions", "seals"],
+  "additionalProperties": false,
+  "properties": {
+    "formatVersion": {
+      "type": "string",
+      "enum": ["0.1"],
+      "description": "Version of the Promise Format this ledger follows."
+    },
+    "elections": {
+      "type": "array",
+      "items": { "$ref": "election.schema.json" }
+    },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "candidate.schema.json" }
+    },
+    "promiseVersions": {
+      "type": "array",
+      "items": { "$ref": "promise-version.schema.json" }
+    },
+    "seals": {
+      "type": "array",
+      "items": { "$ref": "seal.schema.json" }
+    }
+  }
+}
