@@ -59,9 +59,9 @@ test("election referencing a missing region fails", async () => {
 
 test("election with wrong region level fails", async () => {
   const l = freshLedger();
-  l.elections[0].regionId = "xx:state:north"; // state level, but parliamentary needs constituency
+  l.elections[0].regionId = "xx:state:s1"; // state level, but parliamentary needs constituency
   const errors = await verifyLedger(l, COUNTRY_DIR);
-  assert.ok(errors.some((e) => /level/.test(e)));
+  assert.ok(errors.some((e) => /level/.test(e)), errors.join("\n"));
 });
 
 test("candidate with unknown position fails", async () => {

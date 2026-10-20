@@ -50,6 +50,37 @@ export function groupByPromise(versions) {
   return groups;
 }
 
+// Timestamps are compared as plain strings inside the chain rules, so the
+// exact format must be enforced here too — verifyChain has to stay safe even
+// when it is used WITHOUT JSON Schema validation.
+const CREATED_AT_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+
+/**
+ * Structural shape check for one version, independent of the schema:
+ *  - publish/amend: content must be a non-null object and reason absent/null;
+ *  - withdraw:      content must be null and reason a non-null object.
+ * Returns null when fine, otherwise a short reason string.
+ */
+export function versionShapeProblem(v) {
+  if (v.type === "publish" || v.type === "amend") {
+    if (v.content === null || typeof v.content !== "object" || Array.isArray(v.content)) {
+      return `"${v.type}" requires a non-null object content`;
+    }
+    if (v.reason !== undefined && v.reason !== null) {
+      return `"${v.type}" must not have a reason`;
+    }
+    return null;
+  }
+  if (v.type === "withdraw") {
+    if (v.content !== null) return `"withdraw" requires content null`;
+    if (v.reason === null || typeof v.reason !== "object" || Array.isArray(v.reason)) {
+      return `"withdraw" requires a non-null reason object`;
+    }
+    return null;
+  }
+  return `unknown version type "${String(v.type)}"`;
+}
+
 function bad(brokenAtVersion, reason) {
   return { ok: false, brokenAtVersion, reason };
 }
@@ -57,26 +88,38 @@ function bad(brokenAtVersion, reason) {
 /**
  * Verify one promise's chain of versions. Never throws on bad data.
  * Rules (Promise Format v0.1):
+ *  - all versions share the same electionId and candidateId;
  *  - contiguous versions 1..n, no duplicates;
  *  - version 1 has type "publish" and prevHash null;
  *  - every later version links via prevHash to the previous version's hash;
  *  - "publish" only allowed as version 1;
  *  - no versions after a "withdraw";
  *  - every stored hash recomputes correctly;
- *  - createdAt never decreases along the chain.
+ *  - createdAt never decreases along the chain;
+ *  - createdAt matches ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$ exactly;
+ *  - structural shape per type (see versionShapeProblem).
  * Returns { ok, brokenAtVersion, reason }.
  */
 export async function verifyChain(chain) {
   if (!Array.isArray(chain) || chain.length === 0) {
     return bad(null, "empty chain");
   }
+  const first = chain[0];
   let prev = null;
   for (let i = 0; i < chain.length; i++) {
     const v = chain[i];
     const expectedNumber = i + 1;
+    if (v.electionId !== first.electionId || v.candidateId !== first.candidateId) {
+      return bad(expectedNumber, "promise mixes candidates/elections");
+    }
     if (!Number.isSafeInteger(v.version) || v.version !== expectedNumber) {
       return bad(expectedNumber, `version must be ${expectedNumber}, got ${JSON.stringify(v.version)}`);
     }
+    if (typeof v.createdAt !== "string" || !CREATED_AT_RE.test(v.createdAt)) {
+      return bad(expectedNumber, `createdAt must match YYYY-MM-DDTHH:mm:ssZ, got ${JSON.stringify(v.createdAt)}`);
+    }
+    const shape = versionShapeProblem(v);
+    if (shape) return bad(expectedNumber, shape);
     if (i === 0) {
       if (v.type !== "publish") return bad(1, `first version must have type "publish", got "${v.type}"`);
       if (v.prevHash !== null) return bad(1, `version 1 must have prevHash null`);

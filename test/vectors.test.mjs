@@ -93,12 +93,16 @@ test("version hash vector: withdraw v2 without reason (key omitted)", async () =
 
 test("NFC: Bangla decomposed vs composed hash identically", async () => {
   const decomposed = "\u09AF\u09BC"; // য় as Y+NUKTA (2 code points)
-  const composed = "\u09DF"; // য় precomposed (1 code point)
+  const composed = "\u09DF"; // U+09DF exists only in NFC; Unicode has NO NFC->NFD mapping for it,
+                             // so NFD(composed) === composed. The two raw strings are therefore
+                             // NOT equivalent under plain NFD/NFC round-tripping. What matters —
+                             // and what this test pins down — is that BOTH normalize to the same
+                             // canonical form U+09AF U+09BC and hash identically.
   assert.notEqual(decomposed, composed); // raw strings differ...
   assert.equal(canonical({ bn: decomposed }), canonical({ bn: composed })); // ...canonical form is identical
   assert.equal(
-    canonical({ bn: decomposed }),
-    '{"bn":"\u09DF"}'
+    canonical({ bn: composed }),
+    '{"bn":"\u09AF\u09BC"}'
   );
   assert.equal(
     await sha256Hex(canonical({ bn: decomposed })),
