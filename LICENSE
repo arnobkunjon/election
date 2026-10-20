@@ -1,6 +1,10 @@
-MIT License
+MIT License (code and documentation in this repository)
 
 Copyright (c) 2026 arnobkunjon
+
+Data files under data/ may carry their own upstream source licenses; see the README.md
+in each country folder. Bangladesh administrative data is derived from
+nuhil/bangladesh-geocode, MIT License, Copyright (c) 2014 Nuhil Mehdy.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/regions.schema.json",
+  "title": "Electoral Region Format v0.1 - regions.json",
+  "type": "array",
+  "minItems": 1,
+  "description": "All regions of one country. Cross-file checks (parent existence, ranks, cycles, defaultLocale) are done by tools/validate.mjs.",
+  "items": {
+    "type": "object",
+    "required": ["id", "level", "parentId", "names"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z]{2}:[a-z][a-z0-9_]*:[^:]+$",
+        "description": "Stable id: '{countryCodeLower}:{level}:{sourceCode}', e.g. 'bd:upazila:302614'."
+      },
+      "level": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "description": "Level id. Must exist in country.json levels."
+      },
+      "parentId": {
+        "type": ["string", "null"],
+        "pattern": "^[a-z]{2}:[a-z][a-z0-9_]*:[^:]+$",
+        "description": "Id of the parent region. Only for hierarchical levels; null otherwise and for top-level regions."
+      },
+      "names": {
+        "type": "object",
+        "minProperties": 1,
+        "description": "Map of locale code to name. Must include the country's defaultLocale (checked by validator).",
+        "additionalProperties": { "type": "string", "minLength": 1 }
+      },
+      "composedOf": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z]{2}:[a-z][a-z0-9_]*:[^:]+$"
+        },
+        "description": "Optional. Ids of the regions this region is made of. Used for non-hierarchical levels (e.g. a constituency composed of upazilas). Referenced ids must exist (checked by validator)."
+      },
+      "codes": {
+        "type": "object",
+        "minProperties": 1,
+        "description": "Optional external codes, e.g. {\"bbs\": \"...\", \"source\": \"...\"}.",
+        "additionalProperties": { "type": "string" }
+      },
+      "geometry": {
+        "type": "string",
+        "pattern": "^[^/\\\\].*\\.geojson$",
+        "description": "Optional. Relative path (inside the country folder) to a GeoJSON file. Geometry is never embedded in regions.json."
+      }
+    }
+  }
+}

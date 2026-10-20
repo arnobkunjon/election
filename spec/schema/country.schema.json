@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/promise-ledger/promise-ledger/spec/schema/country.schema.json",
+  "title": "Electoral Region Format v0.1 - country.json",
+  "type": "object",
+  "required": ["formatVersion", "country", "levels", "electionTypes"],
+  "additionalProperties": false,
+  "properties": {
+    "formatVersion": {
+      "type": "string",
+      "enum": ["0.1"],
+      "description": "Version of the Electoral Region Format this file follows."
+    },
+    "country": {
+      "type": "object",
+      "required": ["code", "names", "defaultLocale", "locales"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z]{2}$",
+          "description": "ISO 3166-1 alpha-2 code, lowercase (e.g. 'bd')."
+        },
+        "names": { "$ref": "#/$defs/localizedString" },
+        "defaultLocale": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$",
+          "description": "Locale used when a translation is missing. Must be listed in locales."
+        },
+        "locales": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+          },
+          "description": "All locales used anywhere in this country folder."
+        }
+      }
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Administrative/electoral levels. Hierarchical ones ordered by rank (0 = top).",
+      "items": {
+        "type": "object",
+        "required": ["id", "rank", "names", "hierarchical"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/identifier" },
+          "rank": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Depth in the hierarchy; 0 = top level. Non-hierarchical levels should use a rank that keeps them out of the parent chain (validators also check the 'hierarchical' flag)."
+          },
+          "hierarchical": {
+            "type": "boolean",
+            "description": "True if this level participates in the parentId tree."
+          },
+          "names": { "$ref": "#/$defs/localizedString" }
+        }
+      }
+    },
+    "electionTypes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "names", "regionLevel", "positions"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/identifier" },
+          "names": { "$ref": "#/$defs/localizedString" },
+          "regionLevel": {
+            "$ref": "#/$defs/identifier",
+            "description": "The level id at which this election is held. Must exist in levels."
+          },
+          "positions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "names", "seatsPerRegion"],
+              "additionalProperties": false,
+              "properties": {
+                "id": { "$ref": "#/$defs/identifier" },
+                "names": { "$ref": "#/$defs/localizedString" },
+                "seatsPerRegion": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "How many seats of this position are elected per region of regionLevel."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Lowercase identifier: letters, digits, underscores."
+    },
+    "localizedString": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Map of locale code to translated string.",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  }
+}

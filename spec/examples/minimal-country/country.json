@@ -1,0 +1,43 @@
+{
+  "formatVersion": "0.1",
+  "country": {
+    "code": "xx",
+    "names": { "en": "Exampleland" },
+    "defaultLocale": "en",
+    "locales": ["en"]
+  },
+  "levels": [
+    {
+      "id": "state",
+      "rank": 0,
+      "hierarchical": true,
+      "names": { "en": "State" }
+    },
+    {
+      "id": "county",
+      "rank": 1,
+      "hierarchical": true,
+      "names": { "en": "County" }
+    },
+    {
+      "id": "constituency",
+      "rank": 90,
+      "hierarchical": false,
+      "names": { "en": "Constituency" }
+    }
+  ],
+  "electionTypes": [
+    {
+      "id": "parliamentary",
+      "names": { "en": "Parliamentary election" },
+      "regionLevel": "constituency",
+      "positions": [
+        {
+          "id": "mp",
+          "names": { "en": "Member of Parliament" },
+          "seatsPerRegion": 1
+        }
+      ]
+    }
+  ]
+}

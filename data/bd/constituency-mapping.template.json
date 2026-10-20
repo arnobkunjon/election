@@ -1,0 +1,29 @@
+{
+  "_comment": "TEMPLATE ONLY. The two entries below are clearly FAKE examples that show how a Jatiya Sangsad constituency, composed of upazilas, will be represented once the real 300-seat mapping is filled in and human-verified. Do not use these entries as data. See data/bd/README.md for the TODO.",
+  "_instructions": [
+    "One entry per constituency.",
+    "id must follow '{countryCodeLower}:{level}:{sourceCode}' — sourceCode will be the official constituency number, e.g. '01-Dhaka-1' becomes 'bd:constituency:01'.",
+    "level is always 'constituency' (a non-hierarchical level, so parentId stays null).",
+    "composedOf lists the upazila region ids that make up the constituency. Every id must exist in regions.json.",
+    "names must include at least the default locale 'en'; add 'bn' too.",
+    "Source to fill from later: Election Commission / https://en.wikipedia.org/wiki/List_of_constituencies_of_the_Jatiya_Sangsad — MUST be verified by a human."
+  ],
+  "constituencies": [
+    {
+      "id": "bd:constituency:FAKE-001",
+      "level": "constituency",
+      "parentId": null,
+      "names": { "en": "FAKE Example-1 (do not use)", "bn": "FAKE উদাহরণ-১ (ব্যবহার করবেন না)" },
+      "composedOf": ["bd:upazila:1", "bd:upazila:2"],
+      "_note": "FAKE example: a constituency made of two upazilas (ids happen to exist, but this grouping is invented)."
+    },
+    {
+      "id": "bd:constituency:FAKE-002",
+      "level": "constituency",
+      "parentId": null,
+      "names": { "en": "FAKE Example-2 (do not use)", "bn": "FAKE উদাহরণ-২ (ব্যবহার করবেন না)" },
+      "composedOf": ["bd:upazila:3"],
+      "_note": "FAKE example: a single-upazila constituency."
+    }
+  ]
+}
